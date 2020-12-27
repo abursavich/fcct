@@ -24,6 +24,7 @@ import (
 
 	baseutil "github.com/coreos/fcct/base/util"
 	"github.com/coreos/fcct/config/common"
+	"github.com/coreos/fcct/internal/fsutil"
 	"github.com/coreos/fcct/translate"
 
 	"github.com/coreos/ignition/v2/config/util"
@@ -208,7 +209,7 @@ func TestTranslateFile(t *testing.T) {
 			},
 			"",
 			common.TranslateOptions{
-				FilesDir: filesDir,
+				FS: fsutil.DirFS(filesDir),
 			},
 		},
 		// inline file contents
@@ -265,7 +266,7 @@ func TestTranslateFile(t *testing.T) {
 			},
 			"",
 			common.TranslateOptions{
-				FilesDir: filesDir,
+				FS: fsutil.DirFS(filesDir),
 			},
 		},
 		// filesDir not specified
@@ -301,7 +302,7 @@ func TestTranslateFile(t *testing.T) {
 			[]translate.Translation{},
 			"error at $.contents.local: " + common.ErrFilesDirEscape.Error() + "\n",
 			common.TranslateOptions{
-				FilesDir: filesDir,
+				FS: fsutil.DirFS(filesDir),
 			},
 		},
 		// attempted inclusion of nonexistent file
@@ -320,7 +321,7 @@ func TestTranslateFile(t *testing.T) {
 			[]translate.Translation{},
 			"error at $.contents.local: open " + filepath.Join(filesDir, "file-missing") + ": no such file or directory\n",
 			common.TranslateOptions{
-				FilesDir: filesDir,
+				FS: fsutil.DirFS(filesDir),
 			},
 		},
 		// inline and local automatic file encoding
@@ -423,7 +424,7 @@ func TestTranslateFile(t *testing.T) {
 			},
 			"",
 			common.TranslateOptions{
-				FilesDir: filesDir,
+				FS: fsutil.DirFS(filesDir),
 			},
 		},
 		// Test disable automatic gzip compression
@@ -1307,7 +1308,7 @@ func TestTranslateTree(t *testing.T) {
 			},
 		}
 		options := common.TranslateOptions{
-			FilesDir: filesDir,
+			FS: fsutil.DirFS(filesDir),
 		}
 		if test.options != nil {
 			options = *test.options
