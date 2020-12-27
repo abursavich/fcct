@@ -25,6 +25,7 @@ import (
 	baseutil "github.com/coreos/fcct/base/util"
 	"github.com/coreos/fcct/config/common"
 	"github.com/coreos/fcct/translate"
+	"github.com/google/go-cmp/cmp"
 
 	"github.com/coreos/ignition/v2/config/util"
 	"github.com/coreos/ignition/v2/config/v3_3_experimental/types"
@@ -1320,9 +1321,15 @@ func TestTranslateTree(t *testing.T) {
 			continue
 		}
 
-		assert.Equal(t, test.outFiles, actual.Storage.Files, "#%d: files mismatch", i)
-		assert.Equal(t, []types.Directory(nil), actual.Storage.Directories, "#%d: directories mismatch", i)
-		assert.Equal(t, test.outLinks, actual.Storage.Links, "#%d: links mismatch", i)
+		if diff := cmp.Diff(test.outFiles, actual.Storage.Files); diff != "" {
+			t.Errorf("#%d: files mismatch:\n%s", i, diff)
+		}
+		if diff := cmp.Diff([]types.Directory(nil), actual.Storage.Directories); diff != "" {
+			t.Errorf("#%d: directories mismatch:\n%s", i, diff)
+		}
+		if diff := cmp.Diff(test.outLinks, actual.Storage.Links); diff != "" {
+			t.Errorf("#%d: links mismatch:\n%s", i, diff)
+		}
 	}
 }
 

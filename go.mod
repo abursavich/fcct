@@ -9,6 +9,7 @@ require (
 	github.com/coreos/ignition/v2 v2.8.1
 	github.com/coreos/vcontext v0.0.0-20201120045928-b0e13dab675c
 	github.com/davecgh/go-spew v1.1.1 // indirect
+	github.com/google/go-cmp v0.5.4
 	github.com/spf13/pflag v1.0.5
 	github.com/stretchr/testify v1.5.1
 	github.com/vincent-petithory/dataurl v0.0.0-20160330182126-9a301d65acbb
